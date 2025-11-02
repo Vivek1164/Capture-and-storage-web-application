@@ -4,7 +4,8 @@ import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
 import connectDB from "./config/db.js";
-import authRoutes from "./routes/auth.js";
+import authRoutes from "./routes/authRoutes.js";
+import mediaRoutes from "./routes/mediaRoutes.js";
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -20,9 +21,13 @@ app.use(
 );
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
+app.use("/uploads", express.static("uploads"));
 
 // auth routes
 app.use("/api/auth", authRoutes);
+
+// media routes
+app.use("/api/media", mediaRoutes);
 
 app.get("/", (req, res) => {
   res.send("Server is running");
