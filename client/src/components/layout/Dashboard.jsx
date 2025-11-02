@@ -104,11 +104,20 @@ export default function Dashboard() {
   };
 
   return (
-    <Box className="p-6">
+    <Box className="p-2 md:p-6">
       {/* Header */}
-      <Box className="flex justify-between items-center mb-6">
-        <Typography variant="h5" fontWeight="bold">
-          Welcome, {user?.user?.name || "User"}
+      <Box className="flex justify-between gap-16 items-center mb-6">
+        <Typography
+          variant="h5"
+          sx={{
+            fontSize: {
+              xs: "1.5rem", // mobile
+              md: "1.75rem", // desktop
+            },
+            fontWeight: "bold",
+          }}
+        >
+          Welcome, {user?.name || "User"}
         </Typography>
 
         <Button
@@ -188,18 +197,27 @@ export default function Dashboard() {
                       {new Date(doc.createdAt).toLocaleDateString()}
                     </TableCell>
                     <TableCell align="center">
-                      <IconButton
-                        color="primary"
-                        onClick={() => window.open(doc.url, "_blank")}
+                      <Box
+                        sx={{
+                          display: "flex",
+                          justifyContent: "center", // centers horizontally
+                          alignItems: "center",
+                          gap: 2, // adds space between icons
+                        }}
                       >
-                        <Eye size={18} />
-                      </IconButton>
-                      <IconButton
-                        color="error"
-                        onClick={() => handleDelete(doc._id)}
-                      >
-                        <Trash2 size={18} />
-                      </IconButton>
+                        <IconButton
+                          color="primary"
+                          onClick={() => window.open(doc.url, "_blank")}
+                        >
+                          <Eye size={18} />
+                        </IconButton>
+                        <IconButton
+                          color="error"
+                          onClick={() => handleDelete(doc._id)}
+                        >
+                          <Trash2 size={18} />
+                        </IconButton>
+                      </Box>
                     </TableCell>
                   </TableRow>
                 ))
