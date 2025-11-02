@@ -21,6 +21,8 @@ const verifyOtp = async (email, otp, name, password) => {
 const login = async (email, password) => {
   const res = await axios.post(`${API}/auth/login`, { email, password });
   if (res.data?.token) localStorage.setItem("token", res.data.token);
+  if (res.data?.user)
+    localStorage.setItem("user", JSON.stringify(res.data.user));
   return res.data; // should include token & user info
 };
 
