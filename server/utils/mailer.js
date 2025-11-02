@@ -1,26 +1,19 @@
-import nodemailer from "nodemailer";
+import { Resend } from "resend";
 import dotenv from "dotenv";
 dotenv.config();
 
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-});
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export const sendEmail = async ({ to, subject, html }) => {
-  const mailOptions = {
-    from: `${process.env.FROM_NAME} <${process.env.EMAIL_USER}>`,
-    to,
-    subject,
-    html,
-  };
-
   try {
-    const info = await transporter.sendMail(mailOptions);
-    console.log("✅ Email sent:", info.response);
+    const response = await resend.emails.send({
+      from: "Media Capture App <onboarding@resend.dev>",
+      to,
+      subject,
+      html,
+    });
+
+    console.log("✅ Email sent successfully:", response);
   } catch (err) {
     console.error("❌ Email send failed:", err);
   }
